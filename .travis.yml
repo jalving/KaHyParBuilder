@@ -19,7 +19,7 @@ sudo: required
 before_script:
 - julia -e 'using Pkg; pkg"add BinaryProvider"; pkg"add BinaryBuilder#master"; Pkg.build()'
 script:
-- julia build_tarballs.jl --verbose
+- julia build_tarballs.jl
 deploy:
   provider: releases
   api_key:
