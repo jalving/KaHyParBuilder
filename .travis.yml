@@ -1,8 +1,8 @@
 language: julia
 os:
-  - linux
+- linux
 julia:
-  - 1.0
+- 1.0
 notifications:
   email: false
 git:
@@ -10,30 +10,21 @@ git:
 cache:
   timeout: 1000
   directories:
-    - downloads
+  - downloads
 env:
   global:
-    - BINARYBUILDER_DOWNLOADS_CACHE=downloads
-    - BINARYBUILDER_AUTOMATIC_APPLE=false
+  - BINARYBUILDER_DOWNLOADS_CACHE=downloads
+  - BINARYBUILDER_AUTOMATIC_APPLE=false
 sudo: required
-
-# Before anything else, get the latest versions of things
 before_script:
-  - julia -e 'using Pkg; pkg"add BinaryProvider"; pkg"add BinaryBuilder#master"; Pkg.build()'
-
+- julia -e 'using Pkg; pkg"add BinaryProvider"; pkg"add BinaryBuilder#master"; Pkg.build()'
 script:
-  - julia build_tarballs.jl
-
-
+- julia build_tarballs.jl
 deploy:
-    provider: releases
-    api_key:
-        # Note; this api_key is only valid for jalving/CMakeBuilder; you need
-        # to make your own: https://docs.travis-ci.com/user/deployment/releases/
-        secure: 
-    file_glob: true
-    file: products/*
-    skip_cleanup: true
-    on:
-        repo: jalving/CMakeBuilder
-        tags: true
+  provider: releases
+  api_key:
+    secure: CU5jbpfL8TuTvej2xSKEV77zXF+kW3VpDqFrWJz60YiI275qz6dPtZUs4NIL4hS6GqVvt9ZUxvceDrqFa2nomTrV2DgD3PRnkwFU5YXhj++hbMzbyAZmguOdEBllyFZiiWBu6FIqkur90W+WygJNC+Ba+wKEQFicusDK5w2HAAjtzUNVIVTxn1aM7NzWC8/WsI6f2BEA6r2g2d8fCmwUxDZlayF6Jqi3paopcrAYwz0VneinzHBAWZLDfDauxmYoCnBfyRuQ4SAB+VBGXfZ3LFAcG/ELVYWU7QT+BhKVsDVG5hM2o42qGoqyXW/5PpoxUqt4YfbVHmqCi7PW4RcBKfK6uNfe0OAUb/ZXaEwJv9IeoXggwFNWRZg3NQpHRjFAzZpoVAJPRXZig2QpK2qJxm1thDKZD21YbXE3k5JfhB0YxyKXpmHFA9+17R/am7sfXIzyInC/Vuox30jQ/Lk0yYnhd2bdt83nYH6r/xStfT8p+fjYjfWha+Qfj5FC3dmQia13wC69hNzTbcEhw9iUkiLnW5s5XnztRIH1+popIhKOdWtvmQD3zavrhQRndKKqD/Zb8BUV/OTuwWcWHgmiq9HYli12K8QG21OdhBBUFHbycFPDvF/xnblW5vj9q2iSS6VwJ5M+KtBYYaacd3RmWJqaaYAvWY1F1m05uS7zxec=
+  file: products/*
+  on:
+    repo: jalving/KaHyParBuilder
+    tags: true
