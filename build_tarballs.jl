@@ -2,8 +2,8 @@
 # `julia build_tarballs.jl --help` to see a usage message.
 using BinaryBuilder
 
-name = "KaHyPar"
-version = v"1.0.0"
+name = "KaHyParBuilder"
+version = v"1.1.0"
 
 #Collection of sources required to build CMakeBuilder
 sources = [
@@ -12,7 +12,7 @@ sources = [
     "https://dl.bintray.com/boostorg/release/1.70.0/source/boost_1_70_0.tar.gz" =>
     "882b48708d211a5f48e60b0124cf5863c1534cd544ecd0664bb534a4b5d506e9",
     "https://github.com/SebastianSchlag/kahypar.git" =>
-    "2aaaae31cb8b44329e4fca7d3a58625ff3eedfe2"
+    "328760c4fd4307be3c972bee814649863febc678"
 ]
 
 # Bash recipe for building across all platforms
@@ -20,7 +20,7 @@ script = raw"""
 cd $WORKSPACE/srcdir/boost_1_70_0
 ./bootstrap.sh --prefix=$prefix/boost
 apk add python-dev
-./b2 -j$nproc --layout=system install
+./b2 -j$nproc --layout=system install --with-program_options
 
 cd $WORKSPACE/srcdir
 cd cmake-3.15.0/
@@ -36,8 +36,7 @@ git submodule update --init --recursive
 mkdir build
 cd build
 $WORKSPACE/srcdir/cmake-3.15.0/build/bin/cmake -DCMAKE_INSTALL_PREFIX=$prefix -DCMAKE_BUILD_TYPE=RELEASE -DBOOST_ROOT=$prefix/boost -DBoost_NO_SYSTEM_PATHS=ON -DBoost_USE_STATIC_LIBS=OFF -DBUILD_SHARED_LIBS=ON ..
-make
-make install
+make install.library
 """
 
 # These are the platforms we will build for by default, unless further
